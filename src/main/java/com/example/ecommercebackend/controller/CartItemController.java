@@ -37,6 +37,11 @@ public class CartItemController {
          cartItemService.removeProductFromCartItem(cartId);
     }
 
+    @GetMapping
+    public CartResponseDto getCart(@RequestParam int userId){
+    return cartItemService.getCart(userId);
+    }
+
 }
 
 

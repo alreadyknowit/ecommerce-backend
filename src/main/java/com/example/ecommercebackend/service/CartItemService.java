@@ -77,7 +77,7 @@ public class CartItemService {
         }
         cartItemRepository.save(cartItem);
 
-        return mapCartToResponse(cartItems);
+        return mapCartToResponse(cartItems,userId);
     }
 
 
@@ -115,12 +115,12 @@ public class CartItemService {
         return dto;
     }
 
-    private CartResponseDto mapCartToResponse(List<CartItem> cartItems) {
+    private CartResponseDto mapCartToResponse(List<CartItem> cartItems,int id) {
 
         CartResponseDto dto = new CartResponseDto();
         List<CartItemResponseDto> cartItemResponseDtos = cartItems.stream().map(this::mapCartItemToDto).collect(Collectors.toList());
         dto.setCartItems(cartItemResponseDtos);
-        dto.setId(cartItems.get(0).getUser().getId());
+        dto.setId(id);
         double totalPrice = cartItems.stream().mapToDouble(item -> item.getProduct().getUnitPrice() * item.getTotalQuantity()).sum();
         dto.setTotalPrice(totalPrice);
         dto.setTotalQuantity(cartItems.size());
@@ -137,5 +137,10 @@ public class CartItemService {
         }
 
 
+    }
+
+    public CartResponseDto getCart(int userId) {
+        List<CartItem> cartItems = cartItemRepository.findAllByUserId(userId);
+        return mapCartToResponse(cartItems,userId);
     }
 }
