@@ -44,14 +44,14 @@ public class CartItemService {
     }
 
 
-    public CartItem getCartItem(int id)throws ResourceNotFoundException{
+    public CartItem getCartItem(int id) throws ResourceNotFoundException {
         return cartItemRepository.findById(id)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Cart item with id " + id + " not found!")
                 );
     }
 
-    public CartResponseDto addNewCartItem(ProductRequestDto dto, int userId)
+    public CartItemResponseDto addNewCartItem(ProductRequestDto dto, int userId)
             throws ResourceNotFoundException {
 
 
@@ -77,7 +77,7 @@ public class CartItemService {
         }
         cartItemRepository.save(cartItem);
 
-        return mapCartToResponse(cartItems,userId);
+        return mapCartItemToDto(cartItem);
     }
 
 
@@ -115,7 +115,7 @@ public class CartItemService {
         return dto;
     }
 
-    private CartResponseDto mapCartToResponse(List<CartItem> cartItems,int id) {
+    private CartResponseDto mapCartToResponse(List<CartItem> cartItems, int id) {
 
         CartResponseDto dto = new CartResponseDto();
         List<CartItemResponseDto> cartItemResponseDtos = cartItems.stream().map(this::mapCartItemToDto).collect(Collectors.toList());
@@ -141,6 +141,6 @@ public class CartItemService {
 
     public CartResponseDto getCart(int userId) {
         List<CartItem> cartItems = cartItemRepository.findAllByUserId(userId);
-        return mapCartToResponse(cartItems,userId);
+        return mapCartToResponse(cartItems, userId);
     }
 }

@@ -21,7 +21,7 @@ public class CartItemController {
     }
 
     @PostMapping()
-    public CartResponseDto addNewCartItem(@RequestBody ProductRequestDto dto, @RequestParam Integer userId)
+    public CartItemResponseDto addNewCartItem(@RequestBody ProductRequestDto dto, @RequestParam Integer userId)
             throws ResourceNotFoundException {
 
         return cartItemService.addNewCartItem(dto, userId);
