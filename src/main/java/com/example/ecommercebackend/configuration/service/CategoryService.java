@@ -1,4 +1,4 @@
-package com.example.ecommercebackend.service;
+package com.example.ecommercebackend.configuration.service;
 
 import com.example.ecommercebackend.dao.CategoryRepository;
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
@@ -35,8 +35,10 @@ public class CategoryService {
     }
 
     public Category updateCategory(Category category, int id) throws ResourceNotFoundException {
-         getOneCategory(id);
-        return categoryRepository.save(category);
+        Category foundCategory = getOneCategory(id);
+        foundCategory.setCategoryName(category.getCategoryName());
+        foundCategory.setSeoUrl(category.getSeoUrl());
+        return categoryRepository.save(foundCategory);
     }
 
     public List<Category> insertAll(List<Category> categories) {

@@ -1,13 +1,12 @@
-package com.example.ecommercebackend.service;
+package com.example.ecommercebackend.configuration.service;
 
 
 import com.example.ecommercebackend.dao.ProductRepository;
-import com.example.ecommercebackend.dto.ProductRequestDto;
+import com.example.ecommercebackend.dto.request.ProductRequestDto;
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.model.Category;
 import com.example.ecommercebackend.model.Product;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -72,13 +71,12 @@ public class ProductService {
 
     //mapper
     public Product mapDtoToProduct(ProductRequestDto dto) throws ResourceNotFoundException {
-        Category category = categoryService.getOneCategory(dto.getCategoryId());
 
         if (modelMapper.getTypeMap(ProductRequestDto.class, Product.class) == null) {
             modelMapper.createTypeMap(ProductRequestDto.class, Product.class);
         }
-
         Product product = modelMapper.map(dto, Product.class);
+        Category category = categoryService.getOneCategory(dto.getCategoryId());
         product.setCategory(category);
         return product;
     }

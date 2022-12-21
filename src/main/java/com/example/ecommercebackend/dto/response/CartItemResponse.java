@@ -1,10 +1,11 @@
-package com.example.ecommercebackend.dto;
+package com.example.ecommercebackend.dto.response;
 
+import com.example.ecommercebackend.dto.request.ProductRequestDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CartItemResponseDto {
+public class CartItemResponse {
 
-    private int id;
+    private Long id;
 
     @JsonProperty("product")
     private ProductRequestDto productRequestDto;
@@ -15,11 +16,11 @@ public class CartItemResponseDto {
 
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,20 +1,23 @@
-package com.example.ecommercebackend.controller;
+package com.example.ecommercebackend.controller.management;
 
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.model.Category;
-import com.example.ecommercebackend.service.CategoryService;
-import jakarta.validation.Valid;
+import com.example.ecommercebackend.configuration.service.CategoryService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
-public class CategoryController {
+@RequestMapping("management/api/v1/categories")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+
+public class CategoryManagementController {
 
     private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
+    public CategoryManagementController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 

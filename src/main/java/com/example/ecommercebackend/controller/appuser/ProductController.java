@@ -1,17 +1,17 @@
-package com.example.ecommercebackend.controller;
+package com.example.ecommercebackend.controller.appuser;
 
-import com.example.ecommercebackend.dto.ProductRequestDto;
+import com.example.ecommercebackend.dto.request.ProductRequestDto;
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.model.Product;
-import com.example.ecommercebackend.service.ProductService;
-import jakarta.validation.Valid;
+import com.example.ecommercebackend.configuration.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 
 
@@ -23,27 +23,28 @@ public class ProductController {
 
 
     @GetMapping("{id}")
-    public com.example.ecommercebackend.model.Product getOneProduct(@PathVariable Integer id) throws ResourceNotFoundException {
+    public Product getOneProduct(@PathVariable Integer id) throws ResourceNotFoundException {
         return productService.getOneProduct(id);
     }
 
-    @PutMapping("{id}")
-    public com.example.ecommercebackend.model.Product updateProduct(@Valid @RequestBody ProductRequestDto productRequestDto, @PathVariable Integer id) throws ResourceNotFoundException {
+    @PutMapping("{id}") @Deprecated
+    public Product updateProduct(@Valid @RequestBody ProductRequestDto productRequestDto,
+                                                                    @PathVariable Integer id) throws ResourceNotFoundException {
         return productService.updateProduct(productRequestDto, id);
     }
 
-    @PostMapping
+    @PostMapping @Deprecated
     public Product addProduct(@Valid @RequestBody ProductRequestDto product) throws ResourceNotFoundException {
         return productService.addProduct(product);
     }
 
-    @PostMapping("/addAll")
-    public List<com.example.ecommercebackend.model.Product> addProduct(@RequestBody List<ProductRequestDto> products) throws ResourceNotFoundException {
+    @PostMapping("/addAll") @Deprecated
+    public List<Product> addProduct(@RequestBody List<ProductRequestDto> products) throws ResourceNotFoundException {
         return productService.addAllProduct(products);
     }
 
     @GetMapping
-    public List<com.example.ecommercebackend.model.Product> getProductsByCategoryId(@RequestParam Optional<Integer> categoryId) throws ResourceNotFoundException {
+    public List<Product> getProductsByCategoryId(@RequestParam Optional<Integer> categoryId) {
         if (categoryId.isPresent()) {
             return productService.getProductsByCategoryId(categoryId.get());
         }

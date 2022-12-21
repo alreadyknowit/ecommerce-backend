@@ -1,14 +1,15 @@
 package com.example.ecommercebackend.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Entity
 public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @OneToOne
     private Product product;
@@ -20,22 +21,22 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private AppUser user;
 
-    public User getUser() {
+    public AppUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(AppUser user) {
         this.user = user;
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,31 +1,32 @@
-package com.example.ecommercebackend.dto;
+package com.example.ecommercebackend.dto.response;
+
 
 import java.util.List;
 
-public class CartResponseDto {
+public class CartResponse {
 
-    private int id;
+    private Long id;
 
-    private List<CartItemResponseDto> cartItems;
+    private List<CartItemResponse> cartItems;
 
     private int totalQuantity;
 
     private double totalPrice;
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public List<CartItemResponseDto> getCartItems() {
+    public List<CartItemResponse> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(List<CartItemResponseDto> cartItems) {
+    public void setCartItems(List<CartItemResponse> cartItems) {
         this.cartItems = cartItems;
     }
 
