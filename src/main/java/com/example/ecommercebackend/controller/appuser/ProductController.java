@@ -3,7 +3,7 @@ package com.example.ecommercebackend.controller.appuser;
 import com.example.ecommercebackend.dto.request.ProductRequestDto;
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.model.Product;
-import com.example.ecommercebackend.service.ProductService;
+import com.example.ecommercebackend.configuration.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

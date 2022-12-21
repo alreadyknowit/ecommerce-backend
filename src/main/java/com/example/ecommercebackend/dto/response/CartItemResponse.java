@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CartItemResponse {
 
-    private int id;
+    private Long id;
 
     @JsonProperty("product")
     private ProductRequestDto productRequestDto;
@@ -16,11 +16,11 @@ public class CartItemResponse {
 
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

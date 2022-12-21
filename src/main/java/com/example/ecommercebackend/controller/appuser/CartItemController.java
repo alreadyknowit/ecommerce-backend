@@ -5,7 +5,7 @@ import com.example.ecommercebackend.dto.response.CartItemResponse;
 import com.example.ecommercebackend.dto.response.CartResponse;
 import com.example.ecommercebackend.dto.request.ProductRequestDto;
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
-import com.example.ecommercebackend.service.CartItemService;
+import com.example.ecommercebackend.configuration.service.CartItemService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,24 +21,25 @@ public class CartItemController {
     }
 
     @PostMapping()
-    public CartItemResponse addNewCartItem(@RequestBody ProductRequestDto dto, @RequestParam Integer userId)
+    public CartItemResponse addNewCartItem(@RequestBody ProductRequestDto dto, @RequestParam Long userId)
             throws ResourceNotFoundException {
 
         return cartItemService.addNewCartItem(dto, userId);
     }
 
     @GetMapping("{id}")
-    public CartItemResponse getCartItem(@PathVariable int id) throws ResourceNotFoundException {
+    public CartItemResponse getCartItem(@PathVariable Long id) throws ResourceNotFoundException {
         return cartItemService.getCartItemResponse(id);
     }
 
     @DeleteMapping({"{cartId}"})
-    public void removeProductFromCartItem(@PathVariable int cartId) throws ResourceNotFoundException {
+    public void removeProductFromCartItem(@PathVariable Long cartId) throws ResourceNotFoundException {
          cartItemService.removeProductFromCartItem(cartId);
     }
 
     @GetMapping
-    public CartResponse getCart(@RequestParam int userId){
+    public CartResponse getCart(@RequestParam Long userId){
+        //cartId= userId because each user has only one cart.
     return cartItemService.getCart(userId);
     }
 

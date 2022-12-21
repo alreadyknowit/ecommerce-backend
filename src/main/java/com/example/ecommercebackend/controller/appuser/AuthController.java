@@ -2,9 +2,7 @@ package com.example.ecommercebackend.controller.appuser;
 
 import com.example.ecommercebackend.dto.request.AuthRequestDto;
 import com.example.ecommercebackend.exception.ResourceAlreadyExistException;
-import com.example.ecommercebackend.model.AppUser;
-import com.example.ecommercebackend.service.AppUserService;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import com.example.ecommercebackend.configuration.service.AppUserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +26,6 @@ public class AuthController {
 
     @PostMapping
     public void register(@RequestBody AuthRequestDto dto) throws ResourceAlreadyExistException {
-
-
         appUserService.createUser(dto);
     }
 

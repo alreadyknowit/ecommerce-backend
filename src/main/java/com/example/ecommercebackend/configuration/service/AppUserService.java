@@ -1,4 +1,4 @@
-package com.example.ecommercebackend.service;
+package com.example.ecommercebackend.configuration.service;
 
 import com.example.ecommercebackend.dao.AppUserRepository;
 import com.example.ecommercebackend.dto.request.AuthRequestDto;
@@ -34,13 +34,13 @@ public class AppUserService implements UserDetailsService {
                 orElseThrow(() -> new UsernameNotFoundException(String.format("%s username not found", username)));
     }
 
-    public AppUser getUserById(Long id) throws Exception {
+    public AppUser getUserById(Long id) throws ResourceNotFoundException {
         if (id != null) {
             return appUserRepository.findAppUserById(id).orElseThrow(
                     () -> new ResourceNotFoundException(String.format("User with id %s not found", id))
             );
         }
-        throw new Exception("Id must be specified");
+        throw new ResourceNotFoundException("Id must be specified");
     }
 
     public AppUserResponseDto createUser(AuthRequestDto dto) throws ResourceAlreadyExistException {
@@ -50,7 +50,7 @@ public class AppUserService implements UserDetailsService {
             appUser.setPassword(passwordEncoder.encode(dto.getPassword()));
             AppUserGrantedAuthority authority = new AppUserGrantedAuthority();
             authority.setAuthority("ROLE_USER");
-            authority.setPermissions(null);
+            authority.setPermissions(new HashSet<>());
             Set<AppUserGrantedAuthority> authorities = new HashSet<>();
             authorities.add(authority);
             appUser.setGrantedAuthorities(authorities);

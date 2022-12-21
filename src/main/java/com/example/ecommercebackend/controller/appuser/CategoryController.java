@@ -2,7 +2,7 @@ package com.example.ecommercebackend.controller.appuser;
 
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.model.Category;
-import com.example.ecommercebackend.service.CategoryService;
+import com.example.ecommercebackend.configuration.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

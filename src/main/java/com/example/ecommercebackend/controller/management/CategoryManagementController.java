@@ -2,7 +2,7 @@ package com.example.ecommercebackend.controller.management;
 
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.model.Category;
-import com.example.ecommercebackend.service.CategoryService;
+import com.example.ecommercebackend.configuration.service.CategoryService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("management/api/v1/categories")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+
 public class CategoryManagementController {
 
     private final CategoryService categoryService;
@@ -20,7 +22,6 @@ public class CategoryManagementController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Category insertCategory(@Valid @RequestBody Category category) {
         return categoryService.insertCategory(category);
     }
@@ -36,13 +37,11 @@ public class CategoryManagementController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Category updateCategory(@PathVariable int id,@Valid  @RequestBody Category category) throws ResourceNotFoundException {
         return categoryService.updateCategory(category, id);
     }
 
     @PostMapping("/addAll")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Category> insertAll(@RequestBody List<Category> categories){
         return categoryService.insertAll(categories);
     }

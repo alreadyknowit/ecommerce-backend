@@ -1,12 +1,11 @@
 package com.example.ecommercebackend.dto.response;
 
-import com.example.ecommercebackend.dto.response.CartItemResponse;
 
 import java.util.List;
 
 public class CartResponse {
 
-    private int id;
+    private Long id;
 
     private List<CartItemResponse> cartItems;
 
@@ -15,11 +14,11 @@ public class CartResponse {
     private double totalPrice;
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

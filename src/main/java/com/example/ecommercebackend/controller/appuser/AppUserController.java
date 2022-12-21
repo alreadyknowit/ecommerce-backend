@@ -2,7 +2,7 @@ package com.example.ecommercebackend.controller.appuser;
 
 import com.example.ecommercebackend.dto.response.AppUserResponseDto;
 import com.example.ecommercebackend.model.AppUser;
-import com.example.ecommercebackend.service.AppUserService;
+import com.example.ecommercebackend.configuration.service.AppUserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

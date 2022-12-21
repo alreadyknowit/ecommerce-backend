@@ -3,7 +3,7 @@ package com.example.ecommercebackend.controller.management;
 import com.example.ecommercebackend.dto.request.ProductRequestDto;
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.model.Product;
-import com.example.ecommercebackend.service.ProductService;
+import com.example.ecommercebackend.configuration.service.ProductService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +13,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("management/api/v1/products")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+
 public class ProductManagementController {
 
 
@@ -24,12 +26,12 @@ public class ProductManagementController {
 
 
     @GetMapping("{id}")
+
     public Product getOneProduct(@PathVariable Integer id) throws ResourceNotFoundException {
         return productService.getOneProduct(id);
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
 
     public Product updateProduct(@Valid @RequestBody ProductRequestDto productRequestDto,
                                  @PathVariable Integer id) throws ResourceNotFoundException {
@@ -37,13 +39,11 @@ public class ProductManagementController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product addAllProducts(@Valid @RequestBody ProductRequestDto product) throws ResourceNotFoundException {
         return productService.addProduct(product);
     }
 
     @PostMapping("/addAll")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Product> addAllProducts(@RequestBody List<ProductRequestDto> products) throws ResourceNotFoundException {
         return productService.addAllProduct(products);
     }

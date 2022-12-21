@@ -1,14 +1,11 @@
-package com.example.ecommercebackend.service;
+package com.example.ecommercebackend.configuration.service;
 
 import com.example.ecommercebackend.dao.CartItemRepository;
 import com.example.ecommercebackend.dto.response.CartItemResponse;
 import com.example.ecommercebackend.dto.response.CartResponse;
 import com.example.ecommercebackend.dto.request.ProductRequestDto;
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
-import com.example.ecommercebackend.model.CartItem;
-import com.example.ecommercebackend.model.Category;
-import com.example.ecommercebackend.model.Product;
-import com.example.ecommercebackend.model.User;
+import com.example.ecommercebackend.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -21,22 +18,21 @@ public class CartItemService {
 
     private final CartItemRepository cartItemRepository;
     private final CategoryService categoryService;
-
     private final ModelMapper modelMapper;
+    private final AppUserService appUserService;
 
 
-    private final UserService userService;
 
 
     public CartItemService(CartItemRepository cartItemRepository,
-                           CategoryService categoryService, ModelMapper modelMapper, UserService userService) {
+                           CategoryService categoryService, ModelMapper modelMapper, AppUserService appUserService) {
         this.cartItemRepository = cartItemRepository;
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
-        this.userService = userService;
+        this.appUserService = appUserService;
     }
 
-    public CartItemResponse getCartItemResponse(int id) throws ResourceNotFoundException {
+    public CartItemResponse getCartItemResponse(Long id) throws ResourceNotFoundException {
         return cartItemRepository.findById(id).map(this::mapCartItemToDto)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Cart item with id " + id + " not found!")
@@ -44,14 +40,14 @@ public class CartItemService {
     }
 
 
-    public CartItem getCartItem(int id) throws ResourceNotFoundException {
+    public CartItem getCartItem(Long id) throws ResourceNotFoundException {
         return cartItemRepository.findById(id)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Cart item with id " + id + " not found!")
                 );
     }
 
-    public CartItemResponse addNewCartItem(ProductRequestDto dto, int userId)
+    public CartItemResponse addNewCartItem(ProductRequestDto dto, Long userId)
             throws ResourceNotFoundException {
 
 
@@ -70,7 +66,7 @@ public class CartItemService {
         } else {
             cartItem = new CartItem();
             cartItem.setProduct(product);
-            User user = userService.getUser(userId);
+            AppUser user =  appUserService.getUserById(userId);
             cartItem.setUser(user);
             cartItem.setTotalQuantity(1);
             cartItems.add(cartItem);
@@ -96,9 +92,7 @@ public class CartItemService {
     public ProductRequestDto mapProductToDto(Product product) {
         if (modelMapper.getTypeMap(Product.class, ProductRequestDto.class) == null) {
             modelMapper.createTypeMap(Product.class, ProductRequestDto.class)
-                    .addMappings(mapper -> {
-                        mapper.map(p -> p.getCategory().getId(), ProductRequestDto::setCategoryId);
-                    });
+                    .addMappings(mapper -> mapper.map(p -> p.getCategory().getId(), ProductRequestDto::setCategoryId));
         }
         return modelMapper.map(product, ProductRequestDto.class);
     }
@@ -115,19 +109,21 @@ public class CartItemService {
         return dto;
     }
 
-    private CartResponse mapCartToResponse(List<CartItem> cartItems, int id) {
+    private CartResponse mapCartToResponse(List<CartItem> cartItems, Long id) {
 
         CartResponse dto = new CartResponse();
-        List<CartItemResponse> cartItemResponses = cartItems.stream().map(this::mapCartItemToDto).collect(Collectors.toList());
+        List<CartItemResponse> cartItemResponses = cartItems.stream()
+                .map(this::mapCartItemToDto).collect(Collectors.toList());
         dto.setCartItems(cartItemResponses);
         dto.setId(id);
-        double totalPrice = cartItems.stream().mapToDouble(item -> item.getProduct().getUnitPrice() * item.getTotalQuantity()).sum();
+        double totalPrice = cartItems.stream().mapToDouble(item ->
+                item.getProduct().getUnitPrice() * item.getTotalQuantity()).sum();
         dto.setTotalPrice(totalPrice);
         dto.setTotalQuantity(cartItems.size());
         return dto;
     }
 
-    public void removeProductFromCartItem(int id) throws ResourceNotFoundException {
+    public void removeProductFromCartItem(Long id) throws ResourceNotFoundException {
         CartItem cartItem = getCartItem(id);
         if (cartItem.getTotalQuantity() !=1 ){
             cartItem.setTotalQuantity(cartItem.getTotalQuantity()-1);
@@ -139,7 +135,7 @@ public class CartItemService {
 
     }
 
-    public CartResponse getCart(int userId) {
+    public CartResponse getCart(Long userId) {
         List<CartItem> cartItems = cartItemRepository.findAllByUserId(userId);
         return mapCartToResponse(cartItems, userId);
     }

@@ -1,4 +1,4 @@
-package com.example.ecommercebackend.service;
+package com.example.ecommercebackend.configuration.service;
 
 
 import com.example.ecommercebackend.dao.ProductRepository;
