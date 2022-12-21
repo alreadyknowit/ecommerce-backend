@@ -1,15 +1,15 @@
-package com.example.ecommercebackend.controller;
+package com.example.ecommercebackend.controller.appuser;
 
 
-import com.example.ecommercebackend.dto.CartItemResponseDto;
-import com.example.ecommercebackend.dto.CartResponseDto;
-import com.example.ecommercebackend.dto.ProductRequestDto;
+import com.example.ecommercebackend.dto.response.CartItemResponse;
+import com.example.ecommercebackend.dto.response.CartResponse;
+import com.example.ecommercebackend.dto.request.ProductRequestDto;
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.service.CartItemService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cartItem")
+@RequestMapping("/api/v1/cartItem")
 public class CartItemController {
 
 
@@ -21,14 +21,14 @@ public class CartItemController {
     }
 
     @PostMapping()
-    public CartItemResponseDto addNewCartItem(@RequestBody ProductRequestDto dto, @RequestParam Integer userId)
+    public CartItemResponse addNewCartItem(@RequestBody ProductRequestDto dto, @RequestParam Integer userId)
             throws ResourceNotFoundException {
 
         return cartItemService.addNewCartItem(dto, userId);
     }
 
     @GetMapping("{id}")
-    public CartItemResponseDto getCartItem(@PathVariable int id) throws ResourceNotFoundException {
+    public CartItemResponse getCartItem(@PathVariable int id) throws ResourceNotFoundException {
         return cartItemService.getCartItemResponse(id);
     }
 
@@ -38,7 +38,7 @@ public class CartItemController {
     }
 
     @GetMapping
-    public CartResponseDto getCart(@RequestParam int userId){
+    public CartResponse getCart(@RequestParam int userId){
     return cartItemService.getCart(userId);
     }
 

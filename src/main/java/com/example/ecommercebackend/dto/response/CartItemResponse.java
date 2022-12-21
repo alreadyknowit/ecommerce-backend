@@ -1,8 +1,9 @@
-package com.example.ecommercebackend.dto;
+package com.example.ecommercebackend.dto.response;
 
+import com.example.ecommercebackend.dto.request.ProductRequestDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CartItemResponseDto {
+public class CartItemResponse {
 
     private int id;
 

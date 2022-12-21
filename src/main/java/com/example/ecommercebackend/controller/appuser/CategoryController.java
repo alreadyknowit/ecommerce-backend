@@ -1,15 +1,15 @@
-package com.example.ecommercebackend.controller;
+package com.example.ecommercebackend.controller.appuser;
 
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.model.Category;
 import com.example.ecommercebackend.service.CategoryService;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/v1/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -18,7 +18,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping
+    @PostMapping@Deprecated
     public Category insertCategory(@Valid @RequestBody Category category) {
         return categoryService.insertCategory(category);
     }
@@ -33,12 +33,12 @@ public class CategoryController {
         return categoryService.getCategories();
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{id}")@Deprecated
     public Category updateCategory(@PathVariable int id,@Valid  @RequestBody Category category) throws ResourceNotFoundException {
         return categoryService.updateCategory(category, id);
     }
 
-    @PostMapping("/addAll")
+    @PostMapping("/addAll") @Deprecated
     public List<Category> insertAll(@RequestBody List<Category> categories){
         return categoryService.insertAll(categories);
     }

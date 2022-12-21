@@ -1,7 +1,8 @@
 package com.example.ecommercebackend.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Entity
 public class CartItem {

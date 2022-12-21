@@ -1,9 +1,9 @@
 package com.example.ecommercebackend.service;
 
 import com.example.ecommercebackend.dao.CartItemRepository;
-import com.example.ecommercebackend.dto.CartItemResponseDto;
-import com.example.ecommercebackend.dto.CartResponseDto;
-import com.example.ecommercebackend.dto.ProductRequestDto;
+import com.example.ecommercebackend.dto.response.CartItemResponse;
+import com.example.ecommercebackend.dto.response.CartResponse;
+import com.example.ecommercebackend.dto.request.ProductRequestDto;
 import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.model.CartItem;
 import com.example.ecommercebackend.model.Category;
@@ -36,7 +36,7 @@ public class CartItemService {
         this.userService = userService;
     }
 
-    public CartItemResponseDto getCartItemResponse(int id) throws ResourceNotFoundException {
+    public CartItemResponse getCartItemResponse(int id) throws ResourceNotFoundException {
         return cartItemRepository.findById(id).map(this::mapCartItemToDto)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Cart item with id " + id + " not found!")
@@ -51,7 +51,7 @@ public class CartItemService {
                 );
     }
 
-    public CartItemResponseDto addNewCartItem(ProductRequestDto dto, int userId)
+    public CartItemResponse addNewCartItem(ProductRequestDto dto, int userId)
             throws ResourceNotFoundException {
 
 
@@ -104,9 +104,9 @@ public class CartItemService {
     }
 
 
-    public CartItemResponseDto mapCartItemToDto(CartItem cartItem) {
+    public CartItemResponse mapCartItemToDto(CartItem cartItem) {
 
-        CartItemResponseDto dto = new CartItemResponseDto();
+        CartItemResponse dto = new CartItemResponse();
         dto.setId(cartItem.getId());
         dto.setTotalPrice(cartItem.getTotalQuantity() * cartItem.getProduct().getUnitPrice());
         dto.setTotalQuantity(cartItem.getTotalQuantity());
@@ -115,11 +115,11 @@ public class CartItemService {
         return dto;
     }
 
-    private CartResponseDto mapCartToResponse(List<CartItem> cartItems, int id) {
+    private CartResponse mapCartToResponse(List<CartItem> cartItems, int id) {
 
-        CartResponseDto dto = new CartResponseDto();
-        List<CartItemResponseDto> cartItemResponseDtos = cartItems.stream().map(this::mapCartItemToDto).collect(Collectors.toList());
-        dto.setCartItems(cartItemResponseDtos);
+        CartResponse dto = new CartResponse();
+        List<CartItemResponse> cartItemResponses = cartItems.stream().map(this::mapCartItemToDto).collect(Collectors.toList());
+        dto.setCartItems(cartItemResponses);
         dto.setId(id);
         double totalPrice = cartItems.stream().mapToDouble(item -> item.getProduct().getUnitPrice() * item.getTotalQuantity()).sum();
         dto.setTotalPrice(totalPrice);
@@ -139,7 +139,7 @@ public class CartItemService {
 
     }
 
-    public CartResponseDto getCart(int userId) {
+    public CartResponse getCart(int userId) {
         List<CartItem> cartItems = cartItemRepository.findAllByUserId(userId);
         return mapCartToResponse(cartItems, userId);
     }

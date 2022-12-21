@@ -1,10 +1,10 @@
 package com.example.ecommercebackend.model;
 
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity @Deprecated
 public class User {
 
     @Id

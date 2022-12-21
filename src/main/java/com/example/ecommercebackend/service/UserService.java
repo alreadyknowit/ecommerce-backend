@@ -5,7 +5,7 @@ import com.example.ecommercebackend.exception.ResourceNotFoundException;
 import com.example.ecommercebackend.model.User;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service @Deprecated
 public class UserService {
 
 
