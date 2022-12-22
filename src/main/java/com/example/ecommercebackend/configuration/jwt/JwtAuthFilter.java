@@ -27,11 +27,12 @@ public class JwtAuthFilter extends UsernamePasswordAuthenticationFilter {
     public  JwtAuthFilter(AuthenticationManager authenticationManager, JwtConfiguration jwtConfiguration) {
         this.authenticationManager = authenticationManager;
         this.jwtConfiguration = jwtConfiguration;
-        this.setFilterProcessesUrl("/api/v1/login");
+       // this.setFilterProcessesUrl("/api/v1/login");
     }
 
 
     @Override
+
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
         try {

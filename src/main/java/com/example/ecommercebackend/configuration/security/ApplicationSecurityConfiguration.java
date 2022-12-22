@@ -14,10 +14,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+
 public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
@@ -37,7 +40,11 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+
         http
+                .cors()
+                .and()
                 .csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -45,7 +52,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .addFilter(new JwtAuthFilter(authenticationManager(),jwtConfiguration))
                 .addFilterAfter(new JwtTokenVerifier(jwtConfiguration), JwtAuthFilter.class)
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*", "/register").permitAll()
+                .antMatchers("/api/v1/**", "index", "/css/*", "/js/*", "/login").permitAll()
                 .anyRequest()
                 .authenticated();
     }
@@ -65,23 +72,22 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
-    /*@Override
     @Bean
-    protected UserDetailsService userDetailsService() {
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOriginPattern("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("HEAD");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
 
-        UserDetails admin = User
-                .builder()
-                .username("admin")
-                .password(passwordEncoder.encode("admin"))
-                .authorities(ADMIN.getGrantedAuthorities())
-                .build();
-
-        UserDetails user = User
-                .builder()
-                .username("user")
-                .password(passwordEncoder.encode("user"))
-                .authorities(APPUSER.getGrantedAuthorities())
-                .build();
-        return new InMemoryUserDetailsManager(admin,user);
-    }*/
 }
