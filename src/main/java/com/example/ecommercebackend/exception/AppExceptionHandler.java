@@ -37,4 +37,17 @@ public class AppExceptionHandler {
 
         return new ResponseEntity<>(exceptionModel, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(value = {AuthException.class})
+    public ResponseEntity<Object> handleAuthException(AuthException e) {
+
+        ExceptionModel exceptionModel = new ExceptionModel(
+                -1,
+                e.getMessage(),
+                HttpStatus.NOT_FOUND.value(),
+                ZonedDateTime.now(ZoneId.of("Europe/Istanbul"))
+        );
+
+        return new ResponseEntity<>(exceptionModel, HttpStatus.NOT_FOUND);
+    }
 }
