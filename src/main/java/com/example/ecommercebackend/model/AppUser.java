@@ -1,9 +1,10 @@
 package com.example.ecommercebackend.model;
 
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,10 @@ public class AppUser implements UserDetails {
     private Long id;
     @OneToMany(mappedBy = "appUser", fetch = FetchType.EAGER)
     private Set<AppUserGrantedAuthority> grantedAuthorities;
+
+    @NotNull(message = "Password must be inserted")
     private String password;
+    @NotNull(message = "Username must be inserted")
     private String username;
 
     private boolean isAccountNonExpired=true;

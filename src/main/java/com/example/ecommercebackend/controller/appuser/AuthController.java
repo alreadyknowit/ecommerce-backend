@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/v1")
@@ -45,13 +47,13 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public AuthResponse register(@RequestBody AuthRequestDto dto) throws ResourceAlreadyExistException {
+    public AuthResponse register(@Valid @RequestBody AuthRequestDto dto) throws ResourceAlreadyExistException {
         return appUserService.registerUser(dto);
 
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequestDto dto)throws AuthenticationException {
+    public AuthResponse login(@Valid @RequestBody AuthRequestDto dto)throws AuthenticationException {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 dto.getUsername(),
                 dto.getPassword()
