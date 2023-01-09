@@ -48,6 +48,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public AuthResponse register(@Valid @RequestBody AuthRequestDto dto) throws ResourceAlreadyExistException {
+        System.out.println("deneme");
         return appUserService.registerUser(dto);
 
     }
